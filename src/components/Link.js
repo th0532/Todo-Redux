@@ -1,39 +1,22 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import Filter from "./Filter"
-import { allVisble, activeVisble, completedVisble } from '../actions'
-import ListContainer from "./ListContainer"
+import React from 'react'
+import PropTypes from 'prop-types'
 
-class Visible extends Component {
-    render() {
-        const {todoList} = this.props;
+const Link = ({ active, children, onClick }) => (
+  <button
+    onClick={onClick}
+    disabled={active}
+    style={{
+      marginLeft: '4px'
+    }}
+  >
+    {children}
+  </button>
+)
 
-        const FilterVisible = (type) =>{
-            switch(type){
-                case 'ALL':
-                    return this.props.dispatch(allVisble(todoList))
-                case 'Active':
-                    return this.props.dispatch(activeVisble(todoList.filter(todo => !todo.isCompleted)))
-                case 'Completed':
-                    return this.props.dispatch(completedVisble(todoList.filter(todo => todo.isCompleted)))
-                default:
-                    throw new Error('Unknown filter:')
-            }
-        }
-        return (
-            <div>
-                <Filter Text={"All"} onClick={()=>FilterVisible("ALL")}></Filter>
-                <Filter Text={"Active"} onClick={()=>FilterVisible("Active")}></Filter>
-                <Filter Text={"Completed"} onClick={()=>FilterVisible("Completed")}></Filter>
-            </div>
-        )
-    }
+Link.propTypes = {
+  active: PropTypes.bool.isRequired,
+  children: PropTypes.node.isRequired,
+  onClick: PropTypes.func.isRequired
 }
 
-function mapStateToProps(state) {
-    return { todoList: state.todos}
-}
-  
-
-export default connect(mapStateToProps)(Visible)
-
+export default Link
