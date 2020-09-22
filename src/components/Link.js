@@ -9,31 +9,17 @@ class Visible extends Component {
         const {todoList} = this.props;
 
         const FilterVisible = (type) =>{
-            // switch(type){
-            //     case 'ALL':
-            //         return console.log(todoList)
-            //     case 'Active':
-            //         console.log(todoList.filter(todo=>!todo.isCompleted))
-            //         return todoList.filter(todo=>!todo.isCompleted)
-            //     case 'Completed':
-            //         console.log(todoList.filter(todo=>todo.isCompleted))
-            //         return todoList.filter(todo=>todo.isCompleted)
-
-            //     default:
-            //         throw new Error('Unknown filter:')
-            // }
             switch(type){
                 case 'ALL':
-                    return this.props.dispatch(allVisble())
+                    return this.props.dispatch(allVisble(todoList))
                 case 'Active':
-                    return this.props.dispatch(activeVisble())
+                    return this.props.dispatch(activeVisble(todoList.filter(todo => !todo.isCompleted)))
                 case 'Completed':
-                    return this.props.dispatch(completedVisble())
+                    return this.props.dispatch(completedVisble(todoList.filter(todo => todo.isCompleted)))
                 default:
                     throw new Error('Unknown filter:')
             }
         }
-        // todoList.filter(todo=>todo.isCompleted)
         return (
             <div>
                 <Filter Text={"All"} onClick={()=>FilterVisible("ALL")}></Filter>
